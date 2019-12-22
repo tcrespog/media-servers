@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kms-cloud-webrtc-28
+  labels:
+    nodePort: webrtc
+spec:
+  type: NodePort
+  ports:
+    - name: webrtc
+      port: 30028
+      targetPort: 30028
+      nodePort: 30028
+  selector:
+    app: kms

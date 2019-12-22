@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kms-cloud-webrtc-67
+  labels:
+    nodePort: webrtc
+spec:
+  type: NodePort
+  ports:
+    - name: webrtc
+      port: 30067
+      targetPort: 30067
+      nodePort: 30067
+  selector:
+    app: kms

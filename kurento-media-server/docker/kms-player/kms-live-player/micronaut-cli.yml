@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: kms.live.player
+---
+testFramework: junit
+sourceLanguage: java

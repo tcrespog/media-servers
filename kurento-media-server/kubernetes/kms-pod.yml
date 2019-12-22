@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kms-cloud
+  labels:
+    app: kms
+spec:
+  containers:
+    - image: cloud.canister.io:5000/tcrespo12/kms
+      name: kms
+      ports:
+        - containerPort: 8888
+      env:
+        - name: KMS_EXTERNAL_ADDRESS
+          value: 184.173.1.67
+    - image: cloud.canister.io:5000/tcrespo12/kms-player
+      name: kms-player
+      ports:
+        - containerPort: 8080
+  imagePullSecrets:
+    - name: regcred

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="cache-control" content="no-cache">
+        <meta http-equiv="pragma" content="no-cache">
+        <meta http-equiv="expires" content="0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/7.3.0/adapter.min.js"></script>
+        <script src="js/kurento-utils.min.js"></script>
+        <script src="js/index.js"></script>
+        <title>KMS: Live Video with WebRTC</title>
+    </head>
+</head>
+<body>
+
+<div>
+    <button id="play" onclick="startViewing()" disabled>Play</button>
+</div>
+<div>
+    <video id="video" autoplay controls width="640px" height="480px" poster="img/webrtc.png"></video>
+</div>
+
+</body>
+</html>

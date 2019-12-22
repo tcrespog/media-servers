@@ -1,0 +1,11 @@
+micronaut:
+  application:
+    name: kms-live-player
+  server:
+    idle-timeout: 15m
+  router:
+    static-resources:
+      default:
+        enabled: true
+        mapping: /**
+        paths: classpath:public
