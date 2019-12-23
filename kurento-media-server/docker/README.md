@@ -1,12 +1,12 @@
 * Build Kurento Media Server.
-```bash
+```shell script
 cd kms
 docker build -t kms .
 docker tag kms cloud.canister.io:5000/tcrespo12/kms:latest
 docker push cloud.canister.io:5000/tcrespo12/kms:latest
 ```
 * Build web interface.
-```bash
+```shell script
 cd kms-player/kms-live-player 
 ./gradlew build
 

@@ -1,0 +1,10 @@
+micronaut:
+  application:
+    name: metrics-collector
+  server:
+    port: 8081
+    cors:
+      enabled: true
+kubernetes:
+    proxy: ${kubernetes.proxy}
+    pod: ${kubernetes.pod}

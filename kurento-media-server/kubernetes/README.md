@@ -1,13 +1,13 @@
 * Generate NodePort services definition files.
-```bash
+```shell script
 ./kms-service-webrtc-generator.sh
 ```
 * Create all elements.
-```bash
+```shell script
 kubectl create -R -f .
 ```
 * Delete all elements.
-```bash
+```shell script
 kubectl delete pod kms-cloud
 kubectl delete svc kms-cloud-web
 kubectl delete svc -l nodePort=webrtc

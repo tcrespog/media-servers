@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <head>
         <meta charset="utf-8">
@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/7.3.0/adapter.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="js/kurento-utils.min.js"></script>
         <script src="js/index.js"></script>
         <title>KMS: Live Video with WebRTC</title>
@@ -23,5 +24,7 @@
     <video id="video" autoplay controls width="640px" height="480px" poster="img/webrtc.png"></video>
 </div>
 
+<input id="metricsServerUrl" type="hidden" th:value="${metricsServerUrl}">
+<input id="playerId" type="hidden" th:value="${playerId}">
 </body>
 </html>

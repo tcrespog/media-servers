@@ -7,7 +7,7 @@ plugins {
 
 
 version "0.1"
-group "kms.live.player"
+group "metrics.collector"
 
 repositories {
     mavenCentral()
@@ -37,16 +37,17 @@ dependencies {
     testImplementation "io.micronaut.test:micronaut-test-junit5"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
 
-    compile 'io.micronaut:micronaut-views'
-    runtime 'org.thymeleaf:thymeleaf:3.0.11.RELEASE'
+    implementation 'io.prometheus:simpleclient:0.8.0'
+    implementation 'io.prometheus:simpleclient_hotspot:0.8.0'
+    implementation 'io.prometheus:simpleclient_httpserver:0.8.0'
+    implementation 'io.prometheus:simpleclient_pushgateway:0.8.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
-    compile 'org.kurento:kurento-client:6.13.0'
-    compileOnly 'org.kurento:kurento-utils-js:6.13.0'
 }
 
 test.classpath += configurations.developmentOnly
 
-mainClassName = "kms.live.player.Application"
+mainClassName = "metrics.collector.Application"
 // use JUnit 5 platform
 test {
     useJUnitPlatform()

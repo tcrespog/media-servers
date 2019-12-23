@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.micronaut.http.MediaType;
 import io.micronaut.websocket.WebSocketSession;
+import io.micronaut.websocket.annotation.OnClose;
 import io.micronaut.websocket.annotation.OnMessage;
 import io.micronaut.websocket.annotation.OnOpen;
 import io.micronaut.websocket.annotation.ServerWebSocket;
@@ -127,6 +128,12 @@ public class LiveVideoController {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+    }
+
+    @OnClose
+    public void onClose(WebSocketSession session) {
+        log.info("Closing WebSocket session {}", session.getId());
+        viewers.remove(session.getId());
     }
 
 }

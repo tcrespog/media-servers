@@ -20,16 +20,29 @@ var video;
 var webRtcPeer;
 
 var startViewingTimestamp;
+var startupDelay;
+var stalls = 0;
+var droppedFrames = 0;
+var droppedFramesPeriodicChecker;
+
 
 window.onload = function() {
-	video = document.getElementById('video');
+	toggleTestSession('start');
 
+	video = document.getElementById('video');
 	video.addEventListener('playing', function () {
-		var now = Date.now();
-		console.log("Video playing", now - startViewingTimestamp);
+		startupDelay = Date.now() - startViewingTimestamp;
+		sendPlaybackMetrics();
+
+		startDroppedFramesPeriodicChecker();
+
+		console.log("Video playing");
 	}, false);
 	["stalled", "waiting"].forEach(function (e) {
 		video.addEventListener(e, function () {
+			stalls++;
+			sendPlaybackMetrics();
+
 			console.log("Video: " + e)
 		}, false);
 	});
@@ -37,6 +50,7 @@ window.onload = function() {
 
 window.onbeforeunload = function() {
 	ws.close();
+	dispose();
 };
 
 ws.onopen = function() {
@@ -124,8 +138,67 @@ function sendMessage(message) {
 }
 
 function dispose() {
-	if (webRtcPeer) {
-		webRtcPeer.dispose();
-		webRtcPeer = null;
+	toggleTestSession('end');
+	if (!webRtcPeer) {
+		return;
 	}
+
+	getDroppedFrames();
+	clearInterval(droppedFramesPeriodicChecker);
+
+	webRtcPeer.dispose();
+	webRtcPeer = null;
+}
+
+function getPlayerId() {
+	return $('#playerId').val();
+}
+
+function toggleTestSession(action) {
+	console.log(action + ' test session');
+	$.ajax({
+		url: $('#metricsServerUrl').val() + '/test/' + action,
+		method: 'GET',
+	});
+}
+
+function sendPlaybackMetrics() {
+	var metrics = {
+		playerId: getPlayerId(),
+		startupDelay: startupDelay,
+		stalls: stalls,
+		droppedFrames: droppedFrames
+	};
+
+	console.log('Sending metrics', metrics);
+	$.ajax({
+		url: $('#metricsServerUrl').val() + '/playback/stats',
+		method: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify(metrics),
+		error: function (error) {
+			console.error(error);
+		},
+		success: function (success) {
+			console.log(success);
+		}
+	});
+}
+
+function startDroppedFramesPeriodicChecker() {
+	droppedFramesPeriodicChecker = setInterval(function () {
+		getDroppedFrames();
+	}, 30000)
+}
+
+function getDroppedFrames() {
+	webRtcPeer.peerConnection.getStats().then(function (stats) {
+		stats.forEach(function (value) {
+			if (value.type === 'track' && value.kind === 'video') {
+				console.log('Video stats', value);
+				droppedFrames = value.framesDropped;
+				sendPlaybackMetrics()
+			}
+		})
+	});
 }

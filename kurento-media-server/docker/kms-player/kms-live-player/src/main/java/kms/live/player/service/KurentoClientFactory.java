@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 public class KurentoClientFactory {
 
     @Singleton
-    KurentoClient kurentoClient() {
+    public KurentoClient kurentoClient() {
         return KurentoClient.create();
     }
 
