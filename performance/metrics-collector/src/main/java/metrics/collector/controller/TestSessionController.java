@@ -1,11 +1,8 @@
 package metrics.collector.controller;
 
 import io.micronaut.http.HttpParameters;
-import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Post;
-import metrics.collector.entity.PlaybackStats;
 import metrics.collector.service.TestSessionService;
 
 import javax.inject.Inject;

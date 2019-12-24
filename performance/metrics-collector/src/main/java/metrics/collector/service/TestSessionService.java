@@ -70,7 +70,7 @@ public class TestSessionService {
         nPlayersGauge.dec();
 
         if (nPlayersGauge.get() == 0) {
-            Observable.timer(2, TimeUnit.MINUTES).subscribe((i) -> {
+            Observable.timer(4, TimeUnit.MINUTES).subscribe((i) -> {
                 registry.clear();
                 log.info("Session duration {}", Duration.between(testSessionStart, Instant.now()));
             });
