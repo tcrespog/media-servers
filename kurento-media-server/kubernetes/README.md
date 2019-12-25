@@ -8,8 +8,8 @@ kubectl create -R -f .
 ```
 * Delete all elements.
 ```shell script
-kubectl delete pod kms-cloud
-kubectl delete svc kms-cloud-web
-kubectl delete svc -l nodePort=webrtc
+kubectl delete pod kms-cloud; \
+kubectl delete svc kms-cloud-web; \
+kubectl delete svc -l nodePort=webrtc; \
 rm -rf kms-service-webrtc/
 ```

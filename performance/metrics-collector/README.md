@@ -12,14 +12,15 @@ docker run -d --name=grafana -p 3000:3000 grafana/grafana
 ```
 * Build Metrics  Collector
 ```shell script
-./gradlew build
-docker build -t metrics-collector .
-docker tag metrics-collector cloud.canister.io:5000/tcrespo12/metrics-collector:latest
-docker push cloud.canister.io:5000/tcrespo12/metrics-collectors:latest
+./gradlew build; \
+cp  build/libs/metrics-collector-*-all.jar ~/metrics-collector.jar
 ```
-* Run Metrics  Collector
+* Open Kubernetes proxy on a terminal
 ```shell script
-docker run -d -p 8081:8081 \
-    --name metrics-collector
-    cloud.canister.io:5000/tcrespo12/metrics-collectors:latest
+kubectl proxy
+```
+* Run Metrics Collector (on host)
+```shell script
+export KUBERNETES_POD=kms-cloud; \
+java -Dcom.sun.management.jmxremote -noverify -jar metrics-collector.jar
 ```

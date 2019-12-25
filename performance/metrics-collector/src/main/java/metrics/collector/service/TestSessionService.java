@@ -1,7 +1,6 @@
 package metrics.collector.service;
 
 import io.prometheus.client.CollectorRegistry;
-import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.exporter.common.TextFormat;
 import io.reactivex.Observable;
@@ -27,10 +26,10 @@ public class TestSessionService {
     private Instant testSessionStart;
 
     private KubernetesMetricsScraperService kubernetesMetricsScraperService;
-    private Gauge nPlayersGauge;
-    private Gauge startupDelayGauge;
-    private Counter stallsCounter;
-    private Counter droppedFramesCounter;
+    private Gauge nPlayersMetric;
+    private Gauge startupDelayMetric;
+    private Gauge stallsMetric;
+    private Gauge droppedFramesMetric;
 
     @Inject
     public TestSessionService(KubernetesMetricsScraperService kubernetesMetricsScraperService) {
@@ -44,32 +43,32 @@ public class TestSessionService {
             initializeMetrics();
         }
 
-        nPlayersGauge.inc();
+        nPlayersMetric.inc();
     }
 
     void initializeMetrics() {
         testSessionStart = Instant.now();
         registry = new CollectorRegistry();
 
-        startupDelayGauge = Gauge.build("playback_startup_delay", "Playback startup delay (s)")
+        startupDelayMetric = Gauge.build("playback_startup_delay", "Playback startup delay (s)")
                 .labelNames("playerId")
                 .register(registry);
-        stallsCounter = Counter.build("playback_stalls", "Playback stalls")
+        stallsMetric = Gauge.build("playback_stalls", "Playback stalls")
                 .labelNames("playerId")
                 .register(registry);
-        droppedFramesCounter = Counter.build("playback_dropped_frames", "Playback dropped frames")
+        droppedFramesMetric = Gauge.build("playback_dropped_frames", "Playback dropped frames")
                 .labelNames("playerId")
                 .register(registry);
-        nPlayersGauge = Gauge.build("playback_players", "Number of players")
+        nPlayersMetric = Gauge.build("playback_players", "Number of players")
                 .register(registry);
         kubernetesMetricsScraperService.register(registry);
     }
 
     public void endTestSession() {
         log.info("Ending test session");
-        nPlayersGauge.dec();
+        nPlayersMetric.dec();
 
-        if (nPlayersGauge.get() == 0) {
+        if (nPlayersMetric.get() == 0) {
             Observable.timer(4, TimeUnit.MINUTES).subscribe((i) -> {
                 registry.clear();
                 log.info("Session duration {}", Duration.between(testSessionStart, Instant.now()));
@@ -81,16 +80,16 @@ public class TestSessionService {
         log.info("Updating playback stats {}", stats);
 
         if (stats.getStartupDelay() != null) {
-            startupDelayGauge.labels(stats.getPlayerId())
+            startupDelayMetric.labels(stats.getPlayerId())
                     .set(stats.getStartupDelay());
         }
         if (stats.getDroppedFrames() != null) {
-            Counter.Child labeledCounter = droppedFramesCounter.labels(stats.getPlayerId());
-            labeledCounter.inc(stats.getDroppedFrames() - labeledCounter.get());
+            Gauge.Child labeledMetric = droppedFramesMetric.labels(stats.getPlayerId());
+            labeledMetric.set(stats.getDroppedFrames());
         }
         if (stats.getStalls() != null) {
-            Counter.Child labeledCounter = stallsCounter.labels(stats.getPlayerId());
-            labeledCounter.inc(stats.getStalls() - labeledCounter.get());
+            Gauge.Child labeledMetric = stallsMetric.labels(stats.getPlayerId());
+            labeledMetric.set(stats.getStalls());
         }
     }
 

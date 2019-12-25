@@ -23,6 +23,7 @@ public class LiveVideoController {
     private static final Gson gson = new Gson();
 
     private final ConcurrentHashMap<String, WebRtcEndpoint> viewers;
+    private final ConcurrentHashMap<String, WebSocketSession> sessions;
 
     @Inject
     private KurentoClient kurentoClient;
@@ -32,43 +33,49 @@ public class LiveVideoController {
 
     public LiveVideoController() {
         viewers = new ConcurrentHashMap<>();
+        sessions = new ConcurrentHashMap<>();
     }
 
     @OnOpen
     public void onOpen(WebSocketSession session) {
+        sessions.put(session.getId(), session);
+
         if (mediaPipeline != null) {
             return;
         }
-
-        startMediaPlayback(session);
+        startMediaPlayback();
     }
 
-    private void startMediaPlayback(WebSocketSession session) {
+    private void startMediaPlayback() {
         mediaPipeline = kurentoClient.createMediaPipeline();
 
         playerEndpoint = new PlayerEndpoint.Builder(mediaPipeline, "file:///home/BBB_480p_24fps_H264_128kbit_AAC.mp4").build();
         playerEndpoint.addErrorListener(event -> {
             log.info("ErrorEvent: {} ", event.getDescription());
-            finishMediaPlayback(session);
+            finishMediaPlayback();
         });
         playerEndpoint.addEndOfStreamListener(event -> {
             log.info("EndOfStreamEvent: {} ", event.getTimestamp());
-            finishMediaPlayback(session);
+            finishMediaPlayback();
         });
         playerEndpoint.play();
     }
 
-    private void finishMediaPlayback(WebSocketSession session) {
-        mediaPipeline = null;
-        playerEndpoint = null;
-        viewers.clear();
-
+    private void finishMediaPlayback() {
         JsonObject response = new JsonObject();
         response.addProperty("id", "playEnd");
-        synchronized (session) {
-            session.sendSync(response.toString(), MediaType.APPLICATION_JSON_TYPE);
-            session.close();
-        }
+
+        sessions.forEach((id, session) -> {
+            synchronized (session) {
+                session.sendSync(response.toString(), MediaType.APPLICATION_JSON_TYPE);
+                session.close();
+            }
+        });
+
+        mediaPipeline = null;
+        playerEndpoint = null;
+        sessions.clear();
+        viewers.clear();
     }
 
     @OnMessage
@@ -134,6 +141,7 @@ public class LiveVideoController {
     public void onClose(WebSocketSession session) {
         log.info("Closing WebSocket session {}", session.getId());
         viewers.remove(session.getId());
+        sessions.remove(session.getId());
     }
 
 }

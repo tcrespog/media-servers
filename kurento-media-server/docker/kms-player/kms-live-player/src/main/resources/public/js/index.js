@@ -22,7 +22,7 @@ var webRtcPeer;
 var startViewingTimestamp;
 var startupDelay;
 var stalls = 0;
-var droppedFrames = 0;
+var lastDroppedFrames = 0;
 var droppedFramesPeriodicChecker;
 
 
@@ -31,17 +31,21 @@ window.onload = function() {
 
 	video = document.getElementById('video');
 	video.addEventListener('playing', function () {
+		console.log("Video playing");
+		if (startupDelay != null) {
+			return;
+		}
+
 		startupDelay = Date.now() - startViewingTimestamp;
-		sendPlaybackMetrics();
+		sendPlaybackMetrics(0);
 
 		startDroppedFramesPeriodicChecker();
 
-		console.log("Video playing");
+
 	}, false);
 	["stalled", "waiting"].forEach(function (e) {
 		video.addEventListener(e, function () {
 			stalls++;
-			sendPlaybackMetrics();
 
 			console.log("Video: " + e)
 		}, false);
@@ -143,8 +147,8 @@ function dispose() {
 		return;
 	}
 
-	getDroppedFrames();
 	clearInterval(droppedFramesPeriodicChecker);
+	getDroppedFrames();
 
 	webRtcPeer.dispose();
 	webRtcPeer = null;
@@ -162,7 +166,7 @@ function toggleTestSession(action) {
 	});
 }
 
-function sendPlaybackMetrics() {
+function sendPlaybackMetrics(droppedFrames) {
 	var metrics = {
 		playerId: getPlayerId(),
 		startupDelay: startupDelay,
@@ -177,10 +181,10 @@ function sendPlaybackMetrics() {
 		contentType: 'application/json',
 		data: JSON.stringify(metrics),
 		error: function (error) {
-			console.error(error);
+			console.error('Error sent', error);
 		},
 		success: function (success) {
-			console.log(success);
+			console.log('Successfully sent', success);
 		}
 	});
 }
@@ -196,8 +200,8 @@ function getDroppedFrames() {
 		stats.forEach(function (value) {
 			if (value.type === 'track' && value.kind === 'video') {
 				console.log('Video stats', value);
-				droppedFrames = value.framesDropped;
-				sendPlaybackMetrics()
+				sendPlaybackMetrics(value.framesDropped - lastDroppedFrames);
+				lastDroppedFrames = value.framesDropped;
 			}
 		})
 	});
