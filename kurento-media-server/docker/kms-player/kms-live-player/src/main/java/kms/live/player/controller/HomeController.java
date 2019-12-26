@@ -14,7 +14,7 @@ public class HomeController {
 
     private final AtomicInteger playerId = new AtomicInteger(0);
 
-    @Value("${metrics.server}")
+    @Value("${metrics.server:`http://localhost:8081`}")
     String metricsServerUrl;
 
     @View("index")

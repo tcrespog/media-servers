@@ -9,6 +9,4 @@ micronaut:
         enabled: true
         mapping: /**
         paths: classpath:public
-metrics:
-  server: http://192.168.1.38:8081
 

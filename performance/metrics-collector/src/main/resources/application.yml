@@ -7,4 +7,3 @@ micronaut:
       enabled: true
 kubernetes:
     proxy: ${kubernetes.proxy}
-    pod: ${kubernetes.pod}

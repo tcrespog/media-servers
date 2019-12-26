@@ -13,6 +13,8 @@ spec:
       env:
         - name: KMS_EXTERNAL_ADDRESS
           value: 184.173.1.67
+        - name: METRICS_SERVER
+          value: http://192.168.1.33
     - image: cloud.canister.io:5000/tcrespo12/kms-player
       name: kms-player
       ports:
