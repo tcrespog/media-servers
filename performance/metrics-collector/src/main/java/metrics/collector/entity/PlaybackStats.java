@@ -6,6 +6,8 @@ public class PlaybackStats {
 
     private String playerId;
     private Double startupDelay;
+    private Long receivedFrames;
+    private Long receivedSamples;
     private Long lostFrames;
     private Long lostSamples;
     private Instant timestamp;
@@ -24,6 +26,22 @@ public class PlaybackStats {
 
     public void setStartupDelay(Double startupDelay) {
         this.startupDelay = startupDelay;
+    }
+
+    public Long getReceivedFrames() {
+        return receivedFrames;
+    }
+
+    public void setReceivedFrames(Long receivedFrames) {
+        this.receivedFrames = receivedFrames;
+    }
+
+    public Long getReceivedSamples() {
+        return receivedSamples;
+    }
+
+    public void setReceivedSamples(Long receivedSamples) {
+        this.receivedSamples = receivedSamples;
     }
 
     public Long getLostFrames() {
@@ -51,11 +69,30 @@ public class PlaybackStats {
             this.timestamp = Instant.parse(timestamp);
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    public Double getValue(String metricName) {
+        switch (metricName) {
+            case "playback_startup_delay":
+                return getStartupDelay();
+            case "playback_received_samples":
+                return getReceivedSamples().doubleValue();
+            case "playback_received_frames":
+                return getReceivedFrames().doubleValue();
+            case "playback_lost_samples":
+                return getLostSamples().doubleValue();
+            case "playback_lost_frames":
+                return getLostFrames().doubleValue();
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public String toString() {
         return "PlaybackStats{" +
                 "playerId='" + playerId + '\'' +
                 ", startupDelay=" + startupDelay +
+                ", receivedFrames=" + receivedFrames +
+                ", receivedSamples=" + receivedSamples +
                 ", lostFrames=" + lostFrames +
                 ", lostSamples=" + lostSamples +
                 ", timestamp=" + timestamp +

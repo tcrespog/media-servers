@@ -21,10 +21,19 @@ var webRtcPeer;
 
 var startViewingTimestamp;
 var startupDelay;
+
+var lastReceivedSamples = 0;
+var lastReceivedFrames = 0;
 var lastConcealedSamples = 0;
 var lastDroppedFrames = 0;
-var webRtcStatsPeriodicChecker;
 
+var newReceivedFrames = 0;
+var newDroppedFrames = 0;
+var newReceivedSamples = 0;
+var newConcealedSamples = 0;
+var statsTimestamp = new Date();
+
+var webRtcStatsPeriodicChecker;
 
 window.onload = function() {
 	toggleTestSession('start');
@@ -37,11 +46,7 @@ window.onload = function() {
 		}
 
 		startupDelay = Date.now() - startViewingTimestamp;
-		sendPlaybackMetrics(0, 0);
-
 		startDroppedFramesPeriodicChecker();
-
-
 	}, false);
 };
 
@@ -141,7 +146,6 @@ function dispose() {
 	}
 
 	clearInterval(webRtcStatsPeriodicChecker);
-	getDroppedFrames();
 
 	webRtcPeer.dispose();
 	webRtcPeer = null;
@@ -159,13 +163,15 @@ function toggleTestSession(action) {
 	});
 }
 
-function sendPlaybackMetrics(droppedFrames, concealedSamples) {
+function sendPlaybackMetrics() {
 	var metrics = {
 		playerId: getPlayerId(),
 		startupDelay: startupDelay,
-		lostSamples: concealedSamples,
-		lostFrames: droppedFrames,
-		timestamp: new Date().toISOString()
+		lostSamples: newConcealedSamples,
+		lostFrames: newDroppedFrames,
+		receivedSamples: newReceivedSamples,
+		receivedFrames: newReceivedFrames,
+		timestamp: statsTimestamp.toISOString()
 	};
 
 	console.log('Sending metrics', metrics);
@@ -192,21 +198,26 @@ function startDroppedFramesPeriodicChecker() {
 function getDroppedFrames() {
 	webRtcPeer.peerConnection.getStats().then(function (stats) {
 		stats.forEach(function (value) {
-			var newDroppedFrames;
 			if (value.type === 'track' && value.kind === 'video') {
 				console.log('Video stats', value);
+				
+				newReceivedFrames = value.framesReceived - lastReceivedFrames;
 				newDroppedFrames = value.framesDropped - lastDroppedFrames;
 				lastDroppedFrames = value.framesDropped;
+				lastReceivedFrames = value.framesReceived;
+				
+				statsTimestamp = new Date(value.timestamp);
 			}
 			
-			var newConcealedSamples;
 			if (value.type === 'track' && value.kind === 'audio') {
 				console.log('Audio stats', value);
+
+				newReceivedSamples = value.totalSamplesReceived - lastReceivedSamples;
 				newConcealedSamples = value.concealedSamples - lastConcealedSamples;
+				lastReceivedSamples = value.totalSamplesReceived;
 				lastConcealedSamples = value.concealedSamples;
 			}
-
-			sendPlaybackMetrics(newDroppedFrames, newConcealedSamples);
-		})
+		});
+		sendPlaybackMetrics();
 	});
 }

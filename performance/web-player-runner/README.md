@@ -1,7 +1,7 @@
 * Assemble jar file
 ```shell script
 ./gradlew build; \
-cp build/libs/web-player-runner-*-all.jar ~/web-player-runner.jar 
+cp build/libs/web-player-runner-*-all.jar ~/web-player-runner.jar
 ```
 * Run using Java 8+ (choose a browser installed in your system)
 ```shell script

@@ -91,6 +91,7 @@ public class BrowsersHandler {
         }
 
         try {
+            log.info("Sleeping during {}", runningTimeDuration.toString());
             Thread.sleep(runningTimeDuration.toMillis());
         } catch (InterruptedException e) {
             log.error(e.getMessage());
