@@ -1,9 +1,7 @@
 package metrics.collector.service;
 
 import io.prometheus.client.Collector;
-import metrics.collector.entity.Container;
 import metrics.collector.entity.PlaybackStats;
-import metrics.collector.entity.PodMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,27 +34,28 @@ public class PlaybackMetricsService extends Collector {
         List<MetricFamilySamples> allMetricFamilySamples = new ArrayList<>();
 
         List<MetricFamilySamples.Sample> delaySamples = new ArrayList<>();
-        List<MetricFamilySamples.Sample> stallsSamples = new ArrayList<>();
-        List<MetricFamilySamples.Sample> droppedFramesSamples = new ArrayList<>();
+        List<MetricFamilySamples.Sample> lostSamplesSamples = new ArrayList<>();
+        List<MetricFamilySamples.Sample> lostFramesSamples = new ArrayList<>();
         Iterator<PlaybackStats> i = statsQueue.iterator();
         while (i.hasNext()) {
             PlaybackStats s = i.next();
 
+            log.info("Reading {}", s);
             MetricFamilySamples.Sample delaySample = new MetricFamilySamples.Sample("playback_startup_delay", Arrays.asList("playerId"), Arrays.asList(s.getPlayerId()), s.getStartupDelay(), s.getTimestamp().toEpochMilli());
-            MetricFamilySamples.Sample stallsSample = new MetricFamilySamples.Sample("playback_stalls", Arrays.asList("playerId"), Arrays.asList(s.getPlayerId()), s.getStalls(), s.getTimestamp().toEpochMilli());
-            MetricFamilySamples.Sample droppedFramesSample = new MetricFamilySamples.Sample("playback_dropped_frames", Arrays.asList("playerId"), Arrays.asList(s.getPlayerId()), s.getDroppedFrames(), s.getTimestamp().toEpochMilli());
+            MetricFamilySamples.Sample lostSamplesSample = new MetricFamilySamples.Sample("playback_lost_samples", Arrays.asList("playerId"), Arrays.asList(s.getPlayerId()), s.getLostSamples(), s.getTimestamp().toEpochMilli());
+            MetricFamilySamples.Sample lostFramesSample = new MetricFamilySamples.Sample("playback_lost_frames", Arrays.asList("playerId"), Arrays.asList(s.getPlayerId()), s.getLostFrames(), s.getTimestamp().toEpochMilli());
             delaySamples.add(delaySample);
-            stallsSamples.add(stallsSample);
-            droppedFramesSamples.add(droppedFramesSample);
+            lostSamplesSamples.add(lostSamplesSample);
+            lostFramesSamples.add(lostFramesSample);
 
             i.remove();
         }
         MetricFamilySamples delayMetricFamilySamples = new MetricFamilySamples("playback_startup_delay", Type.GAUGE, "Playback startup delay (s)", delaySamples);
-        MetricFamilySamples stallsMetricFamilySamples = new MetricFamilySamples("playback_stalls", Type.GAUGE, "Playback stalls", droppedFramesSamples);
-        MetricFamilySamples droppedFramesMetricFamilySamples = new MetricFamilySamples("playback_dropped_frames", Type.GAUGE, "Playback dropped frames", stallsSamples);
+        MetricFamilySamples lostSamplesMetricFamilySamples = new MetricFamilySamples("playback_lost_samples", Type.GAUGE, "Playback lost samples", lostFramesSamples);
+        MetricFamilySamples lostFramesMetricFamilySamples = new MetricFamilySamples("playback_lost_frames", Type.GAUGE, "Playback lost frames", lostSamplesSamples);
         allMetricFamilySamples.add(delayMetricFamilySamples);
-        allMetricFamilySamples.add(stallsMetricFamilySamples);
-        allMetricFamilySamples.add(droppedFramesMetricFamilySamples);
+        allMetricFamilySamples.add(lostSamplesMetricFamilySamples);
+        allMetricFamilySamples.add(lostFramesMetricFamilySamples);
 
         return allMetricFamilySamples;
     }

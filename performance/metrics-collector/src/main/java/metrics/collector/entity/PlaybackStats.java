@@ -6,8 +6,8 @@ public class PlaybackStats {
 
     private String playerId;
     private Double startupDelay;
-    private Long droppedFrames;
-    private Long stalls;
+    private Long lostFrames;
+    private Long lostSamples;
     private Instant timestamp;
 
     public String getPlayerId() {
@@ -26,20 +26,20 @@ public class PlaybackStats {
         this.startupDelay = startupDelay;
     }
 
-    public Long getDroppedFrames() {
-        return droppedFrames;
+    public Long getLostFrames() {
+        return lostFrames;
     }
 
-    public void setDroppedFrames(Long droppedFrames) {
-        this.droppedFrames = droppedFrames;
+    public void setLostFrames(Long lostFrames) {
+        this.lostFrames = lostFrames;
     }
 
-    public Long getStalls() {
-        return stalls;
+    public Long getLostSamples() {
+        return lostSamples;
     }
 
-    public void setStalls(Long stalls) {
-        this.stalls = stalls;
+    public void setLostSamples(Long lostSamples) {
+        this.lostSamples = lostSamples;
     }
 
     public Instant getTimestamp() {
@@ -51,13 +51,13 @@ public class PlaybackStats {
             this.timestamp = Instant.parse(timestamp);
     }
 
-    @Override
-    public String toString() {
+    @java.lang.Override
+    public java.lang.String toString() {
         return "PlaybackStats{" +
                 "playerId='" + playerId + '\'' +
                 ", startupDelay=" + startupDelay +
-                ", droppedFrames=" + droppedFrames +
-                ", stalls=" + stalls +
+                ", lostFrames=" + lostFrames +
+                ", lostSamples=" + lostSamples +
                 ", timestamp=" + timestamp +
                 '}';
     }

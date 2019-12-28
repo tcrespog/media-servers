@@ -21,9 +21,9 @@ var webRtcPeer;
 
 var startViewingTimestamp;
 var startupDelay;
-var stalls = 0;
+var lastConcealedSamples = 0;
 var lastDroppedFrames = 0;
-var droppedFramesPeriodicChecker;
+var webRtcStatsPeriodicChecker;
 
 
 window.onload = function() {
@@ -37,19 +37,12 @@ window.onload = function() {
 		}
 
 		startupDelay = Date.now() - startViewingTimestamp;
-		sendPlaybackMetrics(0);
+		sendPlaybackMetrics(0, 0);
 
 		startDroppedFramesPeriodicChecker();
 
 
 	}, false);
-	["stalled", "waiting"].forEach(function (e) {
-		video.addEventListener(e, function () {
-			stalls++;
-
-			console.log("Video: " + e)
-		}, false);
-	});
 };
 
 window.onbeforeunload = function() {
@@ -147,7 +140,7 @@ function dispose() {
 		return;
 	}
 
-	clearInterval(droppedFramesPeriodicChecker);
+	clearInterval(webRtcStatsPeriodicChecker);
 	getDroppedFrames();
 
 	webRtcPeer.dispose();
@@ -166,12 +159,12 @@ function toggleTestSession(action) {
 	});
 }
 
-function sendPlaybackMetrics(droppedFrames) {
+function sendPlaybackMetrics(droppedFrames, concealedSamples) {
 	var metrics = {
 		playerId: getPlayerId(),
 		startupDelay: startupDelay,
-		stalls: stalls,
-		droppedFrames: droppedFrames,
+		lostSamples: concealedSamples,
+		lostFrames: droppedFrames,
 		timestamp: new Date().toISOString()
 	};
 
@@ -191,7 +184,7 @@ function sendPlaybackMetrics(droppedFrames) {
 }
 
 function startDroppedFramesPeriodicChecker() {
-	droppedFramesPeriodicChecker = setInterval(function () {
+	webRtcStatsPeriodicChecker = setInterval(function () {
 		getDroppedFrames();
 	}, 30000)
 }
@@ -199,11 +192,21 @@ function startDroppedFramesPeriodicChecker() {
 function getDroppedFrames() {
 	webRtcPeer.peerConnection.getStats().then(function (stats) {
 		stats.forEach(function (value) {
+			var newDroppedFrames;
 			if (value.type === 'track' && value.kind === 'video') {
 				console.log('Video stats', value);
-				sendPlaybackMetrics(value.framesDropped - lastDroppedFrames);
+				newDroppedFrames = value.framesDropped - lastDroppedFrames;
 				lastDroppedFrames = value.framesDropped;
 			}
+			
+			var newConcealedSamples;
+			if (value.type === 'track' && value.kind === 'audio') {
+				console.log('Audio stats', value);
+				newConcealedSamples = value.concealedSamples - lastConcealedSamples;
+				lastConcealedSamples = value.concealedSamples;
+			}
+
+			sendPlaybackMetrics(newDroppedFrames, newConcealedSamples);
 		})
 	});
 }

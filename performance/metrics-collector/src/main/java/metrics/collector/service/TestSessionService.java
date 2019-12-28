@@ -1,5 +1,6 @@
 package metrics.collector.service;
 
+import io.micronaut.context.annotation.Value;
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.exporter.common.TextFormat;
@@ -27,6 +28,9 @@ public class TestSessionService {
     private KubernetesMetricsScraperService kubernetesMetricsScraperService;
     private PlaybackMetricsService playbackMetricsService;
     private Gauge nPlayersMetric;
+
+    @Value("${addedTimeMinutes:1}")
+    private Integer addedTimeMinutes;
 
     @Inject
     public TestSessionService(KubernetesMetricsScraperService kubernetesMetricsScraperService, PlaybackMetricsService playbackMetricsService) {
@@ -62,7 +66,7 @@ public class TestSessionService {
            return;
         }
 
-        Observable.timer(1, TimeUnit.MINUTES).subscribe((i) -> {
+        Observable.timer(addedTimeMinutes, TimeUnit.MINUTES).subscribe((i) -> {
             registry.clear();
             registry = null;
             log.info("Session duration {}", Duration.between(testSessionStart, Instant.now()));
