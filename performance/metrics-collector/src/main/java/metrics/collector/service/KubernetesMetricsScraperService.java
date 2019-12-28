@@ -5,7 +5,6 @@ import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.prometheus.client.Collector;
-import io.prometheus.client.GaugeMetricFamily;
 import metrics.collector.entity.Container;
 import metrics.collector.entity.PodMetrics;
 import org.slf4j.Logger;
@@ -30,7 +29,6 @@ public class KubernetesMetricsScraperService extends Collector {
     private HttpClient client;
 
     private PodMetrics requestMetrics() {
-        log.info("Requesting metrics from pod '{}'", podName);
         final String metricsApiAddress = "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/" + podName;
 
         return client.toBlocking()
@@ -39,27 +37,12 @@ public class KubernetesMetricsScraperService extends Collector {
 
     public List<MetricFamilySamples> collect() {
         PodMetrics podMetrics = requestMetrics();
-        log.info("Obtained metrics {}", podMetrics);
+        log.info("Obtained Kubernetes metrics from pod {}: {}", podName, podMetrics);
 
-        return buildSamplesPreservingTimestamps(podMetrics);
+        return buildSamples(podMetrics);
     }
 
     private List<MetricFamilySamples> buildSamples(PodMetrics podMetrics) {
-        List<MetricFamilySamples> allMetricFamilySamples = new ArrayList<>();
-
-        GaugeMetricFamily memoryGauge = new GaugeMetricFamily("kubernetes_pod_memory", "Kubernetes containers memory consumption (Ki)", Arrays.asList("container"));
-        GaugeMetricFamily cpuGauge = new GaugeMetricFamily("kubernetes_pod_cpu", "Kubernetes containers CPU consumption (ns)", Arrays.asList("container"));
-        for (Container c : podMetrics.getContainers()) {
-            memoryGauge.addMetric(Arrays.asList(c.getName()), c.getMemory());
-            cpuGauge.addMetric(Arrays.asList(c.getName()), c.getCpu());
-        }
-        allMetricFamilySamples.add(memoryGauge);
-        allMetricFamilySamples.add(cpuGauge);
-
-        return allMetricFamilySamples;
-    }
-
-    private List<MetricFamilySamples> buildSamplesPreservingTimestamps(PodMetrics podMetrics) {
         List<MetricFamilySamples> allMetricFamilySamples = new ArrayList<>();
 
         List<MetricFamilySamples.Sample> memorySamples = new ArrayList<>();

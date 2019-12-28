@@ -1,11 +1,14 @@
 package metrics.collector.entity;
 
+import java.time.Instant;
+
 public class PlaybackStats {
 
     private String playerId;
     private Double startupDelay;
     private Long droppedFrames;
     private Long stalls;
+    private Instant timestamp;
 
     public String getPlayerId() {
         return playerId;
@@ -39,6 +42,15 @@ public class PlaybackStats {
         this.stalls = stalls;
     }
 
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        if (timestamp != null)
+            this.timestamp = Instant.parse(timestamp);
+    }
+
     @Override
     public String toString() {
         return "PlaybackStats{" +
@@ -46,6 +58,7 @@ public class PlaybackStats {
                 ", startupDelay=" + startupDelay +
                 ", droppedFrames=" + droppedFrames +
                 ", stalls=" + stalls +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }

@@ -4,7 +4,6 @@ import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.exporter.common.TextFormat;
 import io.reactivex.Observable;
-import metrics.collector.entity.PlaybackStats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,14 +25,13 @@ public class TestSessionService {
     private Instant testSessionStart;
 
     private KubernetesMetricsScraperService kubernetesMetricsScraperService;
+    private PlaybackMetricsService playbackMetricsService;
     private Gauge nPlayersMetric;
-    private Gauge startupDelayMetric;
-    private Gauge stallsMetric;
-    private Gauge droppedFramesMetric;
 
     @Inject
-    public TestSessionService(KubernetesMetricsScraperService kubernetesMetricsScraperService) {
+    public TestSessionService(KubernetesMetricsScraperService kubernetesMetricsScraperService, PlaybackMetricsService playbackMetricsService) {
         this.kubernetesMetricsScraperService = kubernetesMetricsScraperService;
+        this.playbackMetricsService = playbackMetricsService;
     }
 
     public void startTestSession() {
@@ -50,47 +48,26 @@ public class TestSessionService {
         testSessionStart = Instant.now();
         registry = new CollectorRegistry();
 
-        startupDelayMetric = Gauge.build("playback_startup_delay", "Playback startup delay (s)")
-                .labelNames("playerId")
-                .register(registry);
-        stallsMetric = Gauge.build("playback_stalls", "Playback stalls")
-                .labelNames("playerId")
-                .register(registry);
-        droppedFramesMetric = Gauge.build("playback_dropped_frames", "Playback dropped frames")
-                .labelNames("playerId")
-                .register(registry);
         nPlayersMetric = Gauge.build("playback_players", "Number of players")
                 .register(registry);
         kubernetesMetricsScraperService.register(registry);
+        playbackMetricsService.register(registry);
     }
 
     public void endTestSession() {
         log.info("Ending test session");
         nPlayersMetric.dec();
 
-        if (nPlayersMetric.get() == 0) {
-            Observable.timer(4, TimeUnit.MINUTES).subscribe((i) -> {
-                registry.clear();
-                log.info("Session duration {}", Duration.between(testSessionStart, Instant.now()));
-            });
+        if (nPlayersMetric.get() > 0) {
+           return;
         }
-    }
 
-    public void updatePlaybackStats(PlaybackStats stats) {
-        log.info("Updating playback stats {}", stats);
-
-        if (stats.getStartupDelay() != null) {
-            startupDelayMetric.labels(stats.getPlayerId())
-                    .set(stats.getStartupDelay());
-        }
-        if (stats.getDroppedFrames() != null) {
-            Gauge.Child labeledMetric = droppedFramesMetric.labels(stats.getPlayerId());
-            labeledMetric.set(stats.getDroppedFrames());
-        }
-        if (stats.getStalls() != null) {
-            Gauge.Child labeledMetric = stallsMetric.labels(stats.getPlayerId());
-            labeledMetric.set(stats.getStalls());
-        }
+        registry.unregister(playbackMetricsService);
+        Observable.timer(4, TimeUnit.MINUTES).subscribe((i) -> {
+            registry.clear();
+            registry = null;
+            log.info("Session duration {}", Duration.between(testSessionStart, Instant.now()));
+        });
     }
 
     public String printMetrics() {

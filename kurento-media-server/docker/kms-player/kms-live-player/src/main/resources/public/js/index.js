@@ -171,12 +171,13 @@ function sendPlaybackMetrics(droppedFrames) {
 		playerId: getPlayerId(),
 		startupDelay: startupDelay,
 		stalls: stalls,
-		droppedFrames: droppedFrames
+		droppedFrames: droppedFrames,
+		timestamp: new Date().toISOString()
 	};
 
 	console.log('Sending metrics', metrics);
 	$.ajax({
-		url: $('#metricsServerUrl').val() + '/playback/stats',
+		url: $('#metricsServerUrl').val() + '/playback/metrics',
 		method: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(metrics),
