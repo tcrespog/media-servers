@@ -1,4 +1,4 @@
-* Run Prometheus
+* Run Prometheus (make sure to specify the correct metrics-collector URL in prometheus.yml)
 ```shell script
 docker run -d \
     --name=prometheus \

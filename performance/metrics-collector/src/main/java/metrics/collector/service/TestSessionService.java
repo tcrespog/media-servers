@@ -62,8 +62,7 @@ public class TestSessionService {
            return;
         }
 
-        registry.unregister(playbackMetricsService);
-        Observable.timer(4, TimeUnit.MINUTES).subscribe((i) -> {
+        Observable.timer(1, TimeUnit.MINUTES).subscribe((i) -> {
             registry.clear();
             registry = null;
             log.info("Session duration {}", Duration.between(testSessionStart, Instant.now()));
