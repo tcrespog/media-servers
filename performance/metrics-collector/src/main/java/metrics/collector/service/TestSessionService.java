@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
@@ -50,6 +50,7 @@ public class TestSessionService {
 
     void initializeMetrics() {
         testSessionStart = Instant.now();
+
         registry = new CollectorRegistry();
 
         nPlayersMetric = Gauge.build("playback_players", "Number of players")
@@ -69,8 +70,30 @@ public class TestSessionService {
         Observable.timer(addedTimeMinutes, TimeUnit.MINUTES).subscribe((i) -> {
             registry.clear();
             registry = null;
-            log.info("Session duration {}", Duration.between(testSessionStart, Instant.now()));
+
+            logTestSessions();
         });
+    }
+
+    private void logTestSessions() {
+        Instant testSessionFinish = Instant.now();
+        String sessionStart = "Session started at: " + testSessionStart.toString() + " (" + testSessionStart.toEpochMilli() + ")";
+        String sessionFinish = "Session finished at: " + testSessionFinish.toString() + " (" + testSessionFinish.toEpochMilli() + ")";
+        String sessionDuration = "Session duration: " + Duration.between(testSessionStart, testSessionFinish).toString();
+
+        log.info(sessionStart); log.info(sessionFinish); log.info(sessionDuration);
+
+        try {
+            Writer writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream("test-sessions.txt", true), StandardCharsets.UTF_8));
+            writer.append(sessionStart + "\n");
+            writer.append(sessionFinish + "\n");
+            writer.append(sessionDuration + "\n\n");
+            writer.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+
     }
 
     public String printMetrics() {

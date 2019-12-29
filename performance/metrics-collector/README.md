@@ -1,5 +1,6 @@
 * Run Prometheus (make sure to specify the correct metrics-collector URL in prometheus.yml)
 ```shell script
+cd prometheus; \
 docker run -d \
     --name=prometheus \
     -p 9090:9090 \
