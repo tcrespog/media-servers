@@ -1,5 +1,6 @@
 package metrics.collector.controller;
 
+import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
 import metrics.collector.entity.PlaybackStats;
 import metrics.collector.service.PlaybackMetricsService;
@@ -17,8 +18,10 @@ public class PlaybackMetricsController {
     }
 
     @Post("/metrics")
-    public void metrics(@Body PlaybackStats stats) {
+    @Produces(MediaType.TEXT_PLAIN)
+    public String metrics(@Body PlaybackStats stats) {
         playbackMetricsService.addStats(stats);
+        return "OK";
     }
 
 }

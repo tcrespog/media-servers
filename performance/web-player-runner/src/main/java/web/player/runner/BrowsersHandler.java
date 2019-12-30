@@ -25,7 +25,7 @@ public class BrowsersHandler {
 
     private String browserName;
     private String url;
-    Integer instances;
+    private Integer instances;
     private Duration runningTimeDuration;
 
     private List<WebDriver> drivers;

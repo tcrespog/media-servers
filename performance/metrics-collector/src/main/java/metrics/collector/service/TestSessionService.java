@@ -21,7 +21,7 @@ public class TestSessionService {
 
     private static final Logger log = LoggerFactory.getLogger(TestSessionService.class);
 
-    private CollectorRegistry registry;
+    private final CollectorRegistry registry;
 
     private Instant testSessionStart;
 
@@ -36,13 +36,16 @@ public class TestSessionService {
     public TestSessionService(KubernetesMetricsScraperService kubernetesMetricsScraperService, PlaybackMetricsService playbackMetricsService) {
         this.kubernetesMetricsScraperService = kubernetesMetricsScraperService;
         this.playbackMetricsService = playbackMetricsService;
+        registry = new CollectorRegistry();
     }
 
     public void startTestSession() {
         log.info("Starting test session");
 
-        if (registry == null) {
-            initializeMetrics();
+        synchronized (registry) {
+            if (testSessionStart == null) {
+                initializeMetrics();
+            }
         }
 
         nPlayersMetric.inc();
@@ -50,8 +53,6 @@ public class TestSessionService {
 
     void initializeMetrics() {
         testSessionStart = Instant.now();
-
-        registry = new CollectorRegistry();
 
         nPlayersMetric = Gauge.build("playback_players", "Number of players")
                 .register(registry);
@@ -69,8 +70,7 @@ public class TestSessionService {
 
         Observable.timer(addedTimeMinutes, TimeUnit.MINUTES).subscribe((i) -> {
             registry.clear();
-            registry = null;
-
+            testSessionStart = null;
             logTestSessions();
         });
     }

@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,9 +26,12 @@ public class KubernetesMetricsScraperService extends Collector {
     @Value("${kubernetes.pod}")
     private String podName;
 
-    @Inject
-    @Client("http://localhost:8001")
     private HttpClient client;
+
+    @Inject
+    public KubernetesMetricsScraperService(@Value("${kubernetes.proxy:`http://localhost:8001`}") URL proxyUrl) {
+        client = HttpClient.create(proxyUrl);
+    }
 
     private PodMetrics requestMetrics() {
         final String metricsApiAddress = "/apis/metrics.k8s.io/v1beta1/namespaces/default/pods/" + podName;

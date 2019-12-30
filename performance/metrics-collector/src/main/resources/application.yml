@@ -5,5 +5,3 @@ micronaut:
     port: 8081
     cors:
       enabled: true
-kubernetes:
-    proxy: ${kubernetes.proxy}

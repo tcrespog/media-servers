@@ -12,13 +12,10 @@ public class WebPlayerRunnerCommand implements Runnable {
 
     @Option(names = { "-b", "--browser" }, defaultValue = "chrome", paramLabel = "BROWSER", description = "the browser (chrome, firefox, edge, ie)")
     String browserName;
-
     @Option(names = { "-u", "--url" }, paramLabel = "URL", description = "the URL to navigate to")
     String url;
-
     @Option(names = { "-d", "--duration" }, defaultValue = "PT15M", paramLabel = "DURATION", description = "the running time duration in ISO-8601 format (PnDTnHnMn.nS)")
     Duration duration;
-
     @Option(names = { "-i", "--instances" }, defaultValue = "15", paramLabel = "INSTANCES", description = "the number of instances to run")
     Integer instances;
 

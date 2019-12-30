@@ -40,7 +40,12 @@ public class PlaybackMetricsService extends Collector {
         while (i.hasNext()) {
             PlaybackStats s = i.next();
             for (MetricFamilySamples sampleFamily : sampleFamilies) {
-                MetricFamilySamples.Sample sample = new MetricFamilySamples.Sample(sampleFamily.name, Arrays.asList("playerId"), Arrays.asList(s.getPlayerId()), s.getValue(sampleFamily.name), s.getTimestamp().toEpochMilli());
+                Double value = s.getValue(sampleFamily.name);
+                if (value == null) {
+                    continue;
+                }
+
+                MetricFamilySamples.Sample sample = new MetricFamilySamples.Sample(sampleFamily.name, Arrays.asList("playerId"), Arrays.asList(s.getPlayerId()), value, s.getTimestamp().toEpochMilli());
                 sampleFamily.samples.add(sample);
             }
             i.remove();

@@ -74,13 +74,13 @@ public class PlaybackStats {
             case "playback_startup_delay":
                 return getStartupDelay();
             case "playback_received_samples":
-                return getReceivedSamples().doubleValue();
+                return (getReceivedSamples() != null) ? getReceivedSamples().doubleValue() : null;
             case "playback_received_frames":
-                return getReceivedFrames().doubleValue();
+                return (getReceivedFrames() != null) ? getReceivedFrames().doubleValue() : null;
             case "playback_lost_samples":
-                return getLostSamples().doubleValue();
+                return (getLostSamples() != null) ? getLostSamples().doubleValue() : null;
             case "playback_lost_frames":
-                return getLostFrames().doubleValue();
+                return (getLostFrames() != null) ? getLostFrames().doubleValue() : null;
             default:
                 return null;
         }

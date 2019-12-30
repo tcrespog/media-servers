@@ -1,8 +1,10 @@
 package metrics.collector.controller;
 
 import io.micronaut.http.HttpParameters;
+import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Produces;
 import metrics.collector.service.TestSessionService;
 
 import javax.inject.Inject;
@@ -18,13 +20,17 @@ public class TestSessionController {
     }
 
     @Get("/start")
-    public void start(HttpParameters params) {
+    @Produces(MediaType.TEXT_PLAIN)
+    public String start(HttpParameters params) {
         testSessionService.startTestSession();
+        return "OK";
     }
 
     @Get("/end")
-    public void end() {
+    @Produces(MediaType.TEXT_PLAIN)
+    public String end() {
         testSessionService.endTestSession();
+        return "OK";
     }
 
 }
