@@ -1,0 +1,497 @@
+VLC media player 3.0.8 Vetinari
+Command Line Interface initialized. Type `help' for help.
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :      668 KiB
+| demux bitrate    :      191 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :      808
+| frames displayed :      429
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :     1373 KiB
+| demux bitrate    :      187 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :     1710
+| frames displayed :      881
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :     2075 KiB
+| demux bitrate    :      174 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :     2608
+| frames displayed :     1330
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :     2765 KiB
+| demux bitrate    :      265 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :     3502
+| frames displayed :     1777
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :     3469 KiB
+| demux bitrate    :      264 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :     4402
+| frames displayed :     2227
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :     4172 KiB
+| demux bitrate    :      188 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :     5300
+| frames displayed :     2676
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :     4875 KiB
+| demux bitrate    :      194 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :     6200
+| frames displayed :     3126
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :     5589 KiB
+| demux bitrate    :      200 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :     7106
+| frames displayed :     3579
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :     6281 KiB
+| demux bitrate    :      184 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :     8002
+| frames displayed :     4027
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :     6983 KiB
+| demux bitrate    :      190 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :     8898
+| frames displayed :     4475
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :     7687 KiB
+| demux bitrate    :      190 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :     9802
+| frames displayed :     4928
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :     8388 KiB
+| demux bitrate    :      193 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    10696
+| frames displayed :     5373
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :     9092 KiB
+| demux bitrate    :      260 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    11596
+| frames displayed :     5824
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :     9792 KiB
+| demux bitrate    :      179 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    12490
+| frames displayed :     6272
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :    10497 KiB
+| demux bitrate    :      195 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    13396
+| frames displayed :     6724
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :    11196 KiB
+| demux bitrate    :      180 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    14288
+| frames displayed :     7171
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :    11901 KiB
+| demux bitrate    :      189 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    15190
+| frames displayed :     7622
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :    12204 KiB
+| demux bitrate    :      190 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    15578
+| frames displayed :     7816
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :    12204 KiB
+| demux bitrate    :      190 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    15578
+| frames displayed :     7816
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :    12204 KiB
+| demux bitrate    :      190 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    15578
+| frames displayed :     7816
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :    12204 KiB
+| demux bitrate    :      190 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    15578
+| frames displayed :     7816
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :    12204 KiB
+| demux bitrate    :      190 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    15578
+| frames displayed :     7816
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :    12204 KiB
+| demux bitrate    :      190 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    15578
+| frames displayed :     7816
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :    12204 KiB
+| demux bitrate    :      190 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    15578
+| frames displayed :     7816
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :    12204 KiB
+| demux bitrate    :      190 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    15578
+| frames displayed :     7816
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> +----[ begin of statistical info
++-[Incoming]
+| input bytes read :        0 KiB
+| input bitrate    :        0 kb/s
+| demux bytes read :    12204 KiB
+| demux bitrate    :      190 kb/s
+| demux corrupted  :        0
+| discontinuities  :        2
+|
++-[Video Decoding]
+| video decoded    :    15578
+| frames displayed :     7816
+| frames lost      :        0
+|
++-[Audio Decoding]
+| audio decoded    :        0
+| buffers played   :        0
+| buffers lost     :        0
++----[ end of statistical info ]
+> Shutting down.

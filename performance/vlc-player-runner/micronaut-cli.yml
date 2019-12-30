@@ -1,0 +1,5 @@
+profile: cli
+defaultPackage: vlc.player.runner
+---
+testFramework: junit
+sourceLanguage: java
