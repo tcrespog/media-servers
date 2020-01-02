@@ -23,6 +23,7 @@ public class VlcInstance {
     private static final Pattern numberPattern = Pattern.compile("(\\d+)");
 
     private String playerId;
+    private String programPath;
     private String streamUrl;
 
     private Process process;
@@ -35,8 +36,9 @@ public class VlcInstance {
     private PlaybackStats totalStats;
     private Subject<PlaybackStats> statsSubject;
 
-    public VlcInstance(String id, String streamUrl) {
+    public VlcInstance(String id, String programPath, String streamUrl) {
         this.playerId = id;
+        this.programPath = programPath;
         this.streamUrl = streamUrl;
         statsSubject = PublishSubject.create();
         totalStats = new PlaybackStats(playerId, null);
@@ -45,7 +47,7 @@ public class VlcInstance {
     public void play() throws Exception {
         log.info("Playing instance {}", playerId);
 
-        process = new ProcessBuilder("vlc", "-vv", "-I", "rc", "--no-rc-fake-tty", streamUrl)
+        process = new ProcessBuilder(programPath, "-vv", "--extraintf", "rc", "--no-rc-fake-tty", streamUrl)
                 .directory(null)
                 .redirectErrorStream(true)
                 .start();

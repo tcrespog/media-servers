@@ -11,6 +11,8 @@ import java.time.Duration;
         mixinStandardHelpOptions = true)
 public class VlcPlayerRunnerCommand implements Runnable {
 
+    @Option(names = { "-p", "--path" }, defaultValue = "vlc", paramLabel = "VLC PATH", description = "the path to VLC")
+    String programPath;
     @Option(names = { "-m", "--metricsUrl" }, paramLabel = "METRICS URL", description = "the metrics collector URL")
     String metricsUrl;
     @Option(names = { "-s", "--streamUrl" }, paramLabel = "STREAM URL", description = "the stream URL to play")
@@ -26,7 +28,7 @@ public class VlcPlayerRunnerCommand implements Runnable {
 
     public void run() {
         try {
-            VlcHandler vlcHandler = new VlcHandler(metricsUrl, streamUrl, instances);
+            VlcHandler vlcHandler = new VlcHandler(programPath, metricsUrl, streamUrl, instances);
             vlcHandler.run();
 
             Thread.sleep(duration.toMillis());

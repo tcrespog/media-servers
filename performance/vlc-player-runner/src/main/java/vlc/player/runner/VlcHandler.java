@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -18,13 +17,15 @@ public class VlcHandler {
 
     private static final Logger log = LoggerFactory.getLogger(VlcHandler.class);
 
+    private String programPath;
     private String streamUrl;
     private Integer instances;
 
     private HttpClient httpClient;
     private List<VlcInstance> vlcInstances;
 
-    public VlcHandler(String metricsCollectorUrl, String streamUrl, Integer instances) throws MalformedURLException {
+    public VlcHandler(String programPath, String metricsCollectorUrl, String streamUrl, Integer instances) throws MalformedURLException {
+        this.programPath = programPath;
         this.streamUrl = streamUrl;
         this.instances = instances;
         httpClient = HttpClient.create(new URL(metricsCollectorUrl));
@@ -41,7 +42,7 @@ public class VlcHandler {
     private void createInstances() {
         vlcInstances = new ArrayList<>();
         for (int i = 1; i <= instances; i++) {
-            vlcInstances.add(new VlcInstance("" + i, streamUrl));
+            vlcInstances.add(new VlcInstance("" + i, programPath, streamUrl));
         }
     }
 
