@@ -30,9 +30,7 @@ public class PlaybackMetricsService extends Collector {
     private List<MetricFamilySamples> buildSamples() {
         MetricFamilySamples[] sampleFamilies = {
                 new MetricFamilySamples("playback_startup_delay", Type.GAUGE, "Playback startup delay (s)", new ArrayList<>()),
-                new MetricFamilySamples("playback_received_samples", Type.GAUGE, "Playback received samples", new ArrayList<>()),
                 new MetricFamilySamples("playback_received_frames", Type.GAUGE, "Playback received frames", new ArrayList<>()),
-                new MetricFamilySamples("playback_lost_samples", Type.GAUGE, "Playback lost samples", new ArrayList<>()),
                 new MetricFamilySamples("playback_lost_frames", Type.GAUGE, "Playback lost frames", new ArrayList<>()),
         };
 

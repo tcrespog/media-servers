@@ -7,9 +7,7 @@ public class PlaybackStats {
     private String playerId;
     private Double startupDelay;
     private Long receivedFrames;
-    private Long receivedSamples;
     private Long lostFrames;
-    private Long lostSamples;
     private Instant timestamp;
 
     public String getPlayerId() {
@@ -36,28 +34,12 @@ public class PlaybackStats {
         this.receivedFrames = receivedFrames;
     }
 
-    public Long getReceivedSamples() {
-        return receivedSamples;
-    }
-
-    public void setReceivedSamples(Long receivedSamples) {
-        this.receivedSamples = receivedSamples;
-    }
-
     public Long getLostFrames() {
         return lostFrames;
     }
 
     public void setLostFrames(Long lostFrames) {
         this.lostFrames = lostFrames;
-    }
-
-    public Long getLostSamples() {
-        return lostSamples;
-    }
-
-    public void setLostSamples(Long lostSamples) {
-        this.lostSamples = lostSamples;
     }
 
     public Instant getTimestamp() {
@@ -73,12 +55,8 @@ public class PlaybackStats {
         switch (metricName) {
             case "playback_startup_delay":
                 return getStartupDelay();
-            case "playback_received_samples":
-                return (getReceivedSamples() != null) ? getReceivedSamples().doubleValue() : null;
             case "playback_received_frames":
                 return (getReceivedFrames() != null) ? getReceivedFrames().doubleValue() : null;
-            case "playback_lost_samples":
-                return (getLostSamples() != null) ? getLostSamples().doubleValue() : null;
             case "playback_lost_frames":
                 return (getLostFrames() != null) ? getLostFrames().doubleValue() : null;
             default:
@@ -92,9 +70,7 @@ public class PlaybackStats {
                 "playerId='" + playerId + '\'' +
                 ", startupDelay=" + startupDelay +
                 ", receivedFrames=" + receivedFrames +
-                ", receivedSamples=" + receivedSamples +
                 ", lostFrames=" + lostFrames +
-                ", lostSamples=" + lostSamples +
                 ", timestamp=" + timestamp +
                 '}';
     }

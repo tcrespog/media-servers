@@ -18,7 +18,7 @@ spec:
       ports:
         - containerPort: 8080
       env:
-        - name: JAVA_OPTS
-          value: "-Dmetrics.server=http://192.168.1.33:8081"
+        - name: METRICS_SERVER
+          value: http://192.168.1.38:8081
   imagePullSecrets:
     - name: regcred

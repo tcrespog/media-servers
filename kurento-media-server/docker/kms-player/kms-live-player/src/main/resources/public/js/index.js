@@ -22,15 +22,11 @@ var webRtcPeer;
 var startViewingTimestamp;
 var startupDelay;
 
-var lastReceivedSamples = 0;
 var lastReceivedFrames = 0;
-var lastConcealedSamples = 0;
 var lastDroppedFrames = 0;
 
 var newReceivedFrames = 0;
 var newDroppedFrames = 0;
-var newReceivedSamples = 0;
-var newConcealedSamples = 0;
 var statsTimestamp = new Date();
 
 var webRtcStatsPeriodicChecker;
@@ -167,9 +163,7 @@ function sendPlaybackMetrics() {
 	var metrics = {
 		playerId: getPlayerId(),
 		startupDelay: startupDelay,
-		lostSamples: newConcealedSamples,
 		lostFrames: newDroppedFrames,
-		receivedSamples: newReceivedSamples,
 		receivedFrames: newReceivedFrames,
 		timestamp: statsTimestamp.toISOString()
 	};
@@ -207,15 +201,6 @@ function getDroppedFrames() {
 				lastReceivedFrames = value.framesReceived;
 				
 				statsTimestamp = new Date(value.timestamp);
-			}
-			
-			if (value.type === 'track' && value.kind === 'audio') {
-				console.log('Audio stats', value);
-
-				newReceivedSamples = value.totalSamplesReceived - lastReceivedSamples;
-				newConcealedSamples = value.concealedSamples - lastConcealedSamples;
-				lastReceivedSamples = value.totalSamplesReceived;
-				lastConcealedSamples = value.concealedSamples;
 			}
 		});
 		sendPlaybackMetrics();

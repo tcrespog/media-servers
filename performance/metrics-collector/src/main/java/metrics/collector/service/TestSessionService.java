@@ -70,8 +70,8 @@ public class TestSessionService {
 
         Observable.timer(addedTimeMinutes, TimeUnit.MINUTES).subscribe((i) -> {
             registry.clear();
-            testSessionStart = null;
             logTestSessions();
+            testSessionStart = null;
         });
     }
 
