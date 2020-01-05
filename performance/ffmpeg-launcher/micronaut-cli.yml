@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: ffmpeg.launcher
+---
+testFramework: junit
+sourceLanguage: java
