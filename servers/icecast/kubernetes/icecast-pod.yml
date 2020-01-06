@@ -6,7 +6,6 @@ metadata:
     app: icecast
 spec:
   containers:
-#    - image: cloud.canister.io:5000/tcrespo12/icecast
     - image: vimagick/icecast
       name: icecast
       ports:

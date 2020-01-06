@@ -12,7 +12,7 @@ kubectl delete svc icecast-cloud-stream
 ```shell script
 curl -X GET -G "http://localhost:8080/emit/" \
  -d resolution=360p \
- -d frameRate=30fps \
+ -d frameRate=24fps \
  -d codec=VP8 \
- -d url=icecast://source:hackme@192.168.1.38:8000/video.webm
+ -d url=icecast://source:hackme@localhost:8000/video.webm
 ```
