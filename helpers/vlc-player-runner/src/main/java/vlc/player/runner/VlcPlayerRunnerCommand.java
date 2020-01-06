@@ -30,16 +30,26 @@ public class VlcPlayerRunnerCommand implements Runnable {
         PicocliRunner.run(VlcPlayerRunnerCommand.class, args);
     }
 
+    VlcHandler vlcHandler;
+
     public void run() {
         try {
-            VlcHandler vlcHandler = new VlcHandler(programPath, metricsUrl, streamUrl, instances);
+            vlcHandler = new VlcHandler(programPath, metricsUrl, streamUrl, instances);
             vlcHandler.run();
+
+            onTerminate();
 
             log.info("Sleeping duration: {}", duration.toString());
             Thread.sleep(duration.toMillis());
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    public void onTerminate() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            log.info("Shutting down");
+            vlcHandler.endAllInstances();
+        }));
     }
 }

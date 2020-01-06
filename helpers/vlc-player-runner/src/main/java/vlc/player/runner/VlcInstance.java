@@ -138,6 +138,10 @@ public class VlcInstance {
         return Long.parseLong(matcher.group(1));
     }
 
+    public boolean getIsPlaybackEnded() {
+        return isPlaybackEnded;
+    }
+
     public void requestStats() throws Exception {
         if (isPlaybackEnded) {
             return;

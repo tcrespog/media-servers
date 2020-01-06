@@ -39,6 +39,14 @@ public class VlcHandler {
         requestStatsPeriodically();
     }
 
+    public void endAllInstances() {
+        for (VlcInstance vlc : vlcInstances) {
+            if (!vlc.getIsPlaybackEnded()) {
+                endTestSession();
+            }
+        }
+    }
+
     private void createInstances() {
         vlcInstances = new ArrayList<>();
         for (int i = 1; i <= instances; i++) {
