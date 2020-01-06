@@ -32,6 +32,7 @@ public class VlcInstance {
 
     private Instant launchTimestamp;
     private Double startupTime;
+    private boolean isPlaybackEnded;
 
     private PlaybackStats totalStats;
     private Subject<PlaybackStats> statsSubject;
@@ -42,12 +43,13 @@ public class VlcInstance {
         this.streamUrl = streamUrl;
         statsSubject = PublishSubject.create();
         totalStats = new PlaybackStats(playerId, null);
+        isPlaybackEnded = false;
     }
 
     public void play() throws Exception {
-        log.info("Playing instance {}", playerId);
+        log.info("Playing player {}", playerId);
 
-        process = new ProcessBuilder(programPath, "-vv", "--extraintf", "rc", "--no-rc-fake-tty", streamUrl)
+        process = new ProcessBuilder(programPath, "--extraintf", "rc", "--no-rc-fake-tty", streamUrl)
                 .directory(null)
                 .redirectErrorStream(true)
                 .start();
@@ -64,6 +66,12 @@ public class VlcInstance {
         for (String line = processOutput.readLine(); line != null; line = processOutput.readLine()) {
             parseGetTimeOutput(line);
             stats = parseStatsOutput(stats, line);
+
+            if (isPlaybackEnded) {
+                log.info("Playback for player {} ended", playerId);
+                statsSubject.onComplete();
+                break;
+            }
         }
     }
 
@@ -71,7 +79,7 @@ public class VlcInstance {
         if (line.contains("begin of statistical info")) {
             stats = new PlaybackStats(playerId, Instant.now());
             stats.setStartupDelay(startupTime);
-            log.info("Reading stats for {}", playerId);
+            log.info("Reading stats for player {}", playerId);
         }
 
         if (stats != null) {
@@ -109,6 +117,8 @@ public class VlcInstance {
     }
 
     private void parseGetTimeOutput(String line) {
+        isPlaybackEnded = line.trim().equals("");
+
         long playedTime = parseNumberLine(line);
         if (playedTime <= 0) {
             return;
@@ -128,23 +138,14 @@ public class VlcInstance {
         return Long.parseLong(matcher.group(1));
     }
 
-    public void requestStartupTime() throws Exception {
-        if (startupTime != null) {
+    public void requestStats() throws Exception {
+        if (isPlaybackEnded) {
             return;
         }
 
-        log.info("Requesting startup time for player {}", playerId);
-        sendCommand("get_time");
-    }
-
-
-    public void requestStats() throws Exception {
         log.info("Requesting stats for player {}", playerId);
 
-        if (startupTime == null) {
-            log.info("Requesting startup time for player {}", playerId);
-            sendCommand("get_time");
-        }
+        sendCommand("get_time");
         sendCommand("stats");
     }
 

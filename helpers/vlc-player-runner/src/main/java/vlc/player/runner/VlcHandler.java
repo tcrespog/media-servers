@@ -50,16 +50,15 @@ public class VlcHandler {
         Observable.interval(30, TimeUnit.SECONDS)
                 .subscribe(i -> {
                     for (VlcInstance vlc : vlcInstances) {
-                        vlc.requestStartupTime();
                         vlc.requestStats();
                     }
                 });
     }
 
     private void subscribeToStats() {
-        Observable.fromIterable(vlcInstances)
-                .flatMap(VlcInstance::getStats$)
-                .subscribe(s -> sendStats(s));
+        for (VlcInstance vlc : vlcInstances) {
+            vlc.getStats$().subscribe(s -> sendStats(s), e -> {}, this::endTestSession);
+        }
     }
 
     private void sendStats(PlaybackStats stats) {
@@ -81,6 +80,11 @@ public class VlcHandler {
     private void startTestSession() {
         log.info("Starting test session");
         httpClient.toBlocking().retrieve(HttpRequest.GET("/test/start"), String.class);
+    }
+
+    private void endTestSession() {
+        log.info("Ending test session");
+        httpClient.toBlocking().retrieve(HttpRequest.GET("/test/end"), String.class);
     }
 
 }

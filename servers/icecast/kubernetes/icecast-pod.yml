@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: icecast-cloud
+  labels:
+    app: icecast
+spec:
+  containers:
+#    - image: cloud.canister.io:5000/tcrespo12/icecast
+    - image: vimagick/icecast
+      name: icecast
+      ports:
+        - containerPort: 8000
+    - image: cloud.canister.io:5000/tcrespo12/ffmpeg-launcher
+      name: ffmpeg-launcher
+      ports:
+        - containerPort: 8080
+  imagePullSecrets:
+    - name: regcred
