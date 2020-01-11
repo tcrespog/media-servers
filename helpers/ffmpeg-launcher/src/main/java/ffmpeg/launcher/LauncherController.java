@@ -29,10 +29,12 @@ public class LauncherController {
         String resolution = parameters.get("resolution", String.class, "");
         String frameRate = parameters.get("frameRate", String.class, "");
         String codec = parameters.get("codec", String.class, "");
-        String targetUrl = parameters.get("url", String.class, "");
-        log.info("Parameters {}, {}, {}, {}", resolution, frameRate, codec, targetUrl);
 
-        return emitterService.emit(resolution, frameRate, codec, targetUrl);
+        String outputFormat = parameters.get("output", String.class, "");
+        String targetUrl = parameters.get("url", String.class, "");
+        log.info("Parameters {}, {}, {}, {}, {}", resolution, frameRate, codec, outputFormat, targetUrl);
+
+        return emitterService.emit(resolution, frameRate, codec, outputFormat, targetUrl);
     }
 
 }

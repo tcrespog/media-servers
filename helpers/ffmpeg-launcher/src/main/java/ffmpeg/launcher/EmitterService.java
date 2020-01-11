@@ -17,7 +17,7 @@ public class EmitterService {
 
     private Process ffmpegProcess;
 
-    public HttpResponse<String> emit(String resolution, String frameRate, String codec, String targetUrl) {
+    public HttpResponse<String> emit(String resolution, String frameRate, String codec, String outputFormat, String targetUrl) {
         if (ffmpegProcess != null && ffmpegProcess.isAlive()) {
             return HttpResponse.badRequest("An emission is already in progress");
         }
@@ -32,7 +32,13 @@ public class EmitterService {
             }
 
             File videoFile = videoFiles[0];
-            String mimeType = Files.probeContentType(videoFile.toPath());
+
+            String mimeType;
+            if (outputFormat == null || outputFormat.isEmpty()) {
+                mimeType = Files.probeContentType(videoFile.toPath());
+            } else {
+                mimeType = "video/" + outputFormat;
+            }
             log.info("The mime type {}", mimeType);
 
             ffmpegProcess = new ProcessBuilder("ffmpeg", "-re", "-i", videoFile.getAbsolutePath(),
