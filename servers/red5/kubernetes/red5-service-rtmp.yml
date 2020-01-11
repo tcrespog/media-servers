@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: red5-cloud-rtmp
+spec:
+  type: NodePort
+  ports:
+    - name: rtmp
+      port: 1935
+      targetPort: 1935
+      nodePort: 30002
+  selector:
+    app: red5

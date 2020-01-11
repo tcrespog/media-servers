@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: red5-cloud
+  labels:
+    app: red5
+spec:
+  containers:
+    - image: tcrespog/red5
+      name: red5
+      ports:
+        - containerPort: 5080
+        - containerPort: 1935
+    - image: cloud.canister.io:5000/tcrespo12/ffmpeg-launcher
+      name: ffmpeg-launcher
+      ports:
+        - containerPort: 8080
+  imagePullSecrets:
+    - name: regcred
