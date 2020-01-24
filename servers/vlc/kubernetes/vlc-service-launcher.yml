@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vlc-cloud-launcher
+spec:
+  type: NodePort
+  ports:
+    - name: launcher
+      port: 8080
+      targetPort: 8080
+      nodePort: 30000
+  selector:
+    app: vlc

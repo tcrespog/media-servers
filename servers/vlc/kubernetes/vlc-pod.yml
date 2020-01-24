@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: vlc-cloud
+  labels:
+    app: vlc
+spec:
+  containers:
+    - image: cloud.canister.io:5000/tcrespo12/vlc-launcher
+      name: vlc
+      ports:
+        - containerPort: 8080
+        - containerPort: 8554
+  imagePullSecrets:
+    - name: regcred

@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: vlc.launcher
+---
+testFramework: junit
+sourceLanguage: java
